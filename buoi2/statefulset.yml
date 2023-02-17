@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: demo-stateful
+spec:
+  selector:
+    matchLabels:
+      app: second-todolist
+  serviceName: stateful-service
+  template:
+    metadata:
+      labels:
+        app: second-todolist
+    spec:
+      containers:
+        - name: todolist2
+          image: harness/todolist-sample:latest 
+          ports:
+            - containerPort: 8080
+  replicas: 4 
