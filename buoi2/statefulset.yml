@@ -12,9 +12,16 @@ spec:
       labels:
         app: second-todolist
     spec:
+      volumes:
+        - name: todolist-stateful-volume
+          persistentVolumeClaim:
+            claimName: todolist-pvc
       containers:
         - name: todolist2
           image: harness/todolist-sample:latest 
           ports:
-            - containerPort: 8080
-  replicas: 4 
+            - containerPort: 80
+          volumeMounts:
+            - name: todolist-stateful-volume
+              mountPath: "/usr/share/nginx/html"
+  replicas: 3
