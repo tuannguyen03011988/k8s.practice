@@ -1,20 +1,28 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: redis-master
 spec:
   selector:
     matchLabels:
       app: redis
+  serviceName: stateful-service
   template:
     metadata:
       labels:
         app: redis
         role: master
     spec:
+      volumes:
+        - name: pvc-volume
+          persistentVolumeClaim:
+            claimName: pvc
       containers:
         - name: redismaster
-          image: redis:3.2.9
+          image: redis:3.2.9 
           ports:
             - containerPort: 6379
+          volumeMounts:
+            - name: pvc-volume
+              mountPath: "/usr/share/"
   replicas: 1
