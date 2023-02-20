@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: guestbook-v1
+spec:
+  selector:
+    matchLabels:
+      app: guestbook
+  template:
+    metadata:
+      labels:
+        app: guestbook
+        version: "1.0"
+    spec:
+      containers:
+        - name: guestbookv1
+          image: ibmcom/guestbook:v1
+          ports:
+            - containerPort: 3000
+  replicas: 1
