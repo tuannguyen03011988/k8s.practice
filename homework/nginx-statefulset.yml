@@ -24,7 +24,18 @@ spec:
         - name: nginx
           image: nginx:latest
           ports:
-            - containerPort: 8080
+            - containerPort: 80
+          env:
+            - name: WEBAPP_TITLE
+              valueFrom:
+                configMapKeyRef:
+                  name: nginx-cm
+                  key: WEBAPP_TITLE
+            - name: WEBAPP_DESCRIPTION
+              valueFrom:
+                configMapKeyRef:
+                  name: nginx-cm
+                  key: WEBAPP_DESCRIPTION
           volumeMounts:
             - name: webapp-pv
               mountPath: "/usr/share/nginx/html"
