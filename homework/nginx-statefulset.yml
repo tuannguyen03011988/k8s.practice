@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: webapp
+spec:
+  selector:
+    matchLabels:
+      app: nginxapp
+  serviceName: nginx-sp
+  template:
+    metadata:
+      labels:
+        app: nginxapp
+    spec:
+      volumes:
+        - name: webapp-pv
+          persistentVolumeClaim:
+            claimName: webapp-pvc
+      containers:
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: webapp-pv
+              mountPath: "/usr/share/nginx/html"
+  replicas: 3
+
