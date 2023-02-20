@@ -11,11 +11,15 @@ spec:
     metadata:
       labels:
         app: nginxapp
-    spec:
+    spec: 
       volumes:
         - name: webapp-pv
           persistentVolumeClaim:
             claimName: webapp-pvc
+      volumes:
+        - name: webapp-pv
+          configMap:
+            name: nginx-cm
       containers:
         - name: nginx
           image: nginx:latest
