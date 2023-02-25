@@ -19,10 +19,17 @@ spec:
             claimName: pvc
       containers:
         - name: redisslave
-          image: ibmcom/guestbook-redis-slave:v2                   
+          image: ibmcom/guestbook-redis-slave:v2
+          env:
+          - name: REDIS_MASTER_SERVICE_PASSWORD
+            valueFrom:
+              configMapKeyRef:
+                name: guestbook-config
+                key: redis_pass
+          args: ["--masterauth", "$(REDIS_MASTER_SERVICE_PASSWORD)", "--slaveof", "redis-master","6379"]
           ports:
-            - containerPort: 6379
+          - containerPort: 6379
           volumeMounts:
-            - name: pvc-volume
-              mountPath: "/usr/share/"
+          - name: pvc-volume
+            mountPath: "/usr/share/"
   replicas: 2
