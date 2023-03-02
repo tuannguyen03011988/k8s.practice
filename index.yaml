@@ -1,0 +1,16 @@
+apiVersion: v1
+entries:
+  guestbook_demo_chart:
+  - apiVersion: v2
+    created: "2023-03-02T20:46:22.66034695+07:00"
+    description: A Helm chart for guestbook
+    digest: cb10628b6a1a8207c71701b5bb9515707ba714a5b7141ede990740f2087b9df3
+    maintainers:
+    - email: tuannguyen301@yahoo.com.vn
+      name: tuanNguyen
+    name: guestbook_demo_chart
+    type: application
+    urls:
+    - templates/guestbook_demo_chart-0.1.0.tgz
+    version: 0.1.0
+generated: "2023-03-02T20:46:22.658527255+07:00"
