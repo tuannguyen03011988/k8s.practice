@@ -1,0 +1,8 @@
+apiVersion: v2
+name: guestbook_demo_chart
+description: A Helm chart for guestbook
+type: application
+version: 0.1.0
+maintainers:
+  - name: tuanNguyen
+    email: tuannguyen301@yahoo.com.vn

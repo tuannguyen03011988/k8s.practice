@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis-slave
+spec:
+  selector:
+    matchLabels:
+      app: redis
+  serviceName: stateful-service
+  template:
+    metadata:
+      labels:
+        app: redis
+        role: slave
+    spec:
+      volumes:
+        - name: pvc-volume
+          persistentVolumeClaim:
+            claimName: pvc
+      containers:
+        - name: redisslave
+          image: ibmcom/guestbook-redis-slave:v2
+          env:
+          - name: REDIS_MASTER_SERVICE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: guestbook-secret
+                key: redis_pass
+          args: ["--masterauth", "$(REDIS_MASTER_SERVICE_PASSWORD)", "--slaveof", "redis-master","6379"]
+          ports:
+          - containerPort: 6379
+          volumeMounts:
+          - name: pvc-volume
+            mountPath: "/usr/share/"
+  replicas: 2

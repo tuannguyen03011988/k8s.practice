@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis-master
+spec:
+  selector:
+    matchLabels:
+      app: redis
+  serviceName: stateful-service
+  template:
+    metadata:
+      labels:
+        app: redis
+        role: master
+    spec:
+      volumes:
+        - name: pvc-volume
+          persistentVolumeClaim:
+            claimName: pvc
+      containers:
+        - name: redismaster
+          image: redis:3.2.9
+          env:
+          - name: REDIS_MASTER_SERVICE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: guestbook-secret
+                key: redis_pass
+          args: ["--requirepass","$(REDIS_MASTER_SERVICE_PASSWORD)"] 
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - name: pvc-volume
+              mountPath: "/usr/share/"
+  replicas: 1
